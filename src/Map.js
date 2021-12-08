@@ -1,7 +1,7 @@
 import * as React from 'react';
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 
-function Map() {
+function Map(props) {
   const [viewport, setViewport] = React.useState({
     latitude: 37.7577,
     longitude: -122.4376,
@@ -16,6 +16,17 @@ function Map() {
       mapStyle={'https://api.maptiler.com/maps/streets/style.json?key=1OK05AJqNta7xYzrG2kA'}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
+      {
+        props.bins && props.bins.length < 0 ?
+          props.bins.map(bin => {
+            return (
+              <Marker latitude={bin.latitude} longitude={bin.longitude} offsetLeft={-20} offsetTop={-10}>
+                <div>Bin 1</div>
+              </Marker>
+            )
+          }) : null
+      }
+
       <NavigationControl style={{ padding: 20 }} />
     </ReactMapGL>
   );
