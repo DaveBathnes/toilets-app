@@ -1,12 +1,24 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 
+import Avatar from '@mui/material/Avatar';
+
 function Map(props) {
-  const [viewport, setViewport] = React.useState({
+  const [viewport, setViewport] = useState({
     latitude: 37.7577,
     longitude: -122.4376,
     zoom: 8
   });
+
+  useEffect(() => {
+    if (props.position.length > 0) {
+      setViewport({
+        latitude: props.position[1],
+        longitude: props.position[0],
+        zoom: 18
+      });
+    }
+  }, [props.position]);
 
   return (
     <ReactMapGL
@@ -17,11 +29,11 @@ function Map(props) {
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       {
-        props.bins && props.bins.length < 0 ?
-          props.bins.map(bin => {
+        props.toilets && props.toilets.length < 0 ?
+          props.toilets.map(toilet => {
             return (
-              <Marker latitude={bin.latitude} longitude={bin.longitude} offsetLeft={-20} offsetTop={-10}>
-                <div>Bin 1</div>
+              <Marker latitude={toilet.latitude} longitude={toilet.longitude} offsetLeft={-20} offsetTop={-10}>
+                <Avatar>{toilet.name.substring(1)}</Avatar>
               </Marker>
             )
           }) : null

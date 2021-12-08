@@ -6,3 +6,15 @@
     position: absolute;
     z-index: -1;
 }
+
+.camera {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+    margin:0;
+    padding: 0;
+    z-index: 1500;
+    overflow: hidden;
+}

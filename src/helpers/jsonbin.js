@@ -2,35 +2,35 @@ import axios from 'axios'
 
 const config = require('./config.json')
 
-export const getBins = async () => {
-  const url = config.binAPI + config.binListing
+export const getToilets = async () => {
+  const url = config.toiletAPI + config.toiletListing
   const response = await axios.get(url)
-  if (response && response.data) return response.data.bins
+  if (response && response.data) return response.data.toilets
   return []
 }
 
-export const getBinPhoto = async (photoId) => {
-  const url = config.binAPI + photoId
+export const getToiletPhoto = async (photoId) => {
+  const url = config.toiletAPI + photoId
   const response = await axios.get(url)
   if (response && response.data) return response.data.photo
   return null
 }
 
-export const addBin = async (bin) => {
-  // Get the bin list
-  var bins = await getBins();
-  const url = config.binAPI + '/b'
+export const addToilet = async (toilet) => {
 
-  // Add the bin photos to the data store
-  bin.photos.forEach(async photo => {
+  var toilets = await getToilets();
+  const url = config.toiletAPI + '/b'
+
+  // Add the photos to the data store
+  toilets.photos.forEach(async photo => {
     const upload = await axios.post(url, { photo });
     photo = upload.data.metadata.id
   });
 
-  // Add the bin to the list
-  bins.push(bin);
+  // Add the toilet to the list
+  toilets.push(toilet);
 
   // save the list
-  const listUrl = config.binAPI + config.listing
-  await axios.post(listUrl, { lastUpdated: Date.now(), bins: bins });
+  const listUrl = config.toiletAPI + config.listing
+  await axios.post(listUrl, { lastUpdated: Date.now(), toilets: toilets });
 }
