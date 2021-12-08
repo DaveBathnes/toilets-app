@@ -37,13 +37,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-## Built With
-
-  - [Contributor Covenant](https://www.contributor-covenant.org/) - Used
-    for the Code of Conduct
-  - [Creative Commons](https://creativecommons.org/) - Used to choose
-    the license
-
 ## License
 
 This project is licensed under the [MIT Licence](LICENSE.md) - see the [LICENSE.md](LICENSE.md) file for
