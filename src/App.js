@@ -1,24 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
+import Map from './Map.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="map"><Map /></div>
+      <AppBar position="static" color="primary" elevation="0">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Bog hub
+          </Typography>
+          <Button color="inherit">Add a bin</Button>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 }
 

@@ -1,25 +1,5 @@
 import * as React from 'react';
-import ReactMapGL, {NavigationControl} from 'react-map-gl';
-
-const OSM_MAP = {
-  version: 8,
-  sources: {
-    osm: {
-      type: 'raster',
-      tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
-      tileSize: 256,
-      attribution: '&copy; OpenStreetMap Contributors',
-      maxzoom: 19
-    }
-  },
-  layers: [
-    {
-      id: 'osm',
-      type: 'raster',
-      source: 'osm'
-    }
-  ]
-};
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 
 function Map() {
   const [viewport, setViewport] = React.useState({
@@ -31,12 +11,14 @@ function Map() {
   return (
     <ReactMapGL
       {...viewport}
-      width="100%"
-      height="100%"
-      mapStyle={OSM_MAP}
+      width="100vw"
+      height="100vh"
+      mapStyle={'https://api.maptiler.com/maps/streets/style.json?key=1OK05AJqNta7xYzrG2kA'}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       <NavigationControl style={{ padding: 20 }} />
     </ReactMapGL>
   );
 }
+
+export default Map;
