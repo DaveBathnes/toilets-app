@@ -34,12 +34,16 @@ function App() {
   const [position, setPosition] = useState([])
 
   const [addToiletOpen, setAddToiletOpen] = React.useState(false);
+  const [displayToiletOpen, setDisplayToiletOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    var toilets = storeHelper.getToilets();
-    setToilets(toilets);
+    let getToilets = async () => {
+      var toilets = await storeHelper.getToilets();
+      setToilets(toilets);
+    }
+    getToilets();
   }, [])
 
   const startAddToilet = async () => {
@@ -48,9 +52,27 @@ function App() {
     setAddToiletOpen(true);
   }
 
-  const addToilet = () => {
+  const addToilet = async () => {
     setAddToiletOpen(false);
-    storeHelper.addToilet({ name: name, notes: notes, photos: photos, position: position });
+    const toilets = await storeHelper.addToilet({ name: name, notes: notes, photos: photos, latitude: position[1], longitude: position[0] });
+    setToilets(toilets);
+    setPhotos([]);
+    setName("");
+    setNotes("");
+  }
+
+  const displayToilet = async (toilet) => {
+    setNotes(toilet.notes);
+    setName(toilet.name);
+    setPhotos(await storeHelper.getToiletPhotos(toilet));
+    setDisplayToiletOpen(true);
+  }
+
+  const closeDisplayToilet = () => {
+    setDisplayToiletOpen(false);
+    setPhotos([]);
+    setName("");
+    setNotes("");
   }
 
   const handleTakePhoto = (photo) => {
@@ -76,7 +98,7 @@ function App() {
           </div>
           : null
       }
-      <div className="map"><Map toilets={toilets} position={position} /></div>
+      <div className="map"><Map toilets={toilets} position={position} displayToilet={displayToilet} /></div>
       <AppBar position="static" color="primary" elevation={0}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -105,6 +127,7 @@ function App() {
             multiline
             onChange={(e) => setName(e.target.value)}
           />
+          <br/><br/>
           <TextField
             id="txa-notes"
             label="Notes"
@@ -118,7 +141,7 @@ function App() {
             photos && photos.length > 0 ?
               photos.map((photo) => {
                 return (
-                  <Avatar src={'data:image/png;base64' + photo} sx={{ width: 56, height: 56 }}></Avatar>
+                  <Avatar src={photo} sx={{ width: 56, height: 56 }}></Avatar>
                 )
               })
               : null
@@ -133,6 +156,38 @@ function App() {
           </Button>
           <Button onClick={() => addToilet()} autoFocus>
             Complete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        fullScreen={fullScreen}
+        open={displayToiletOpen}
+        onClose={() => closeDisplayToilet()}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+        {name}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          {notes}
+          </DialogContentText>
+          
+        </DialogContent>
+        <DialogActions>
+          {
+            photos && photos.length > 0 ?
+              photos.map((photo) => {
+                return (
+                  <Avatar src={photo} sx={{ width: 56, height: 56 }}></Avatar>
+                )
+              })
+              : null
+          }
+        </DialogActions>
+        <DialogActions>
+          <Button autoFocus onClick={() => closeDisplayToilet()}>
+            Close
           </Button>
         </DialogActions>
       </Dialog>

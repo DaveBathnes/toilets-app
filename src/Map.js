@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
+import ReactMapGL, { Marker } from 'react-map-gl';
 
 import Avatar from '@mui/material/Avatar';
 
@@ -20,6 +20,10 @@ function Map(props) {
     }
   }, [props.position]);
 
+  const displayToilet = (toilet) => {
+    props.displayToilet(toilet);
+  };
+
   return (
     <ReactMapGL
       {...viewport}
@@ -29,17 +33,15 @@ function Map(props) {
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       {
-        props.toilets && props.toilets.length < 0 ?
+        props.toilets && props.toilets.length > 0 ?
           props.toilets.map(toilet => {
             return (
               <Marker latitude={toilet.latitude} longitude={toilet.longitude} offsetLeft={-20} offsetTop={-10}>
-                <Avatar>{toilet.name.substring(1)}</Avatar>
+                <Avatar onClick={() => displayToilet(toilet)}>{toilet.name.substring(0, 2)}</Avatar>
               </Marker>
             )
           }) : null
       }
-
-      <NavigationControl style={{ padding: 20 }} />
     </ReactMapGL>
   );
 }
