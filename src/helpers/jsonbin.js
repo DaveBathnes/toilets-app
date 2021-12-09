@@ -31,7 +31,7 @@ export const getToiletPhotos = async (toilet) => {
 export const addToilet = async (toilet) => {
 
   var toilets = await getToilets();
-  const url = config.toiletAPI + '/b'
+  const url = config.toiletAPI
 
   let photoIds = []
   // Add the photos to the data store
