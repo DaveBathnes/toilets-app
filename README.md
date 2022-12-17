@@ -39,5 +39,4 @@ Your app is ready to be deployed!
 
 ## License
 
-This project is licensed under the [MIT Licence](LICENSE.md) - see the [LICENSE.md](LICENSE.md) file for
-details
+This project is licensed under the [MIT Licence](LICENSE.md)
